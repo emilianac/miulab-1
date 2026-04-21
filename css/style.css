@@ -137,7 +137,8 @@ section {
 
 .section-heading h2 {
   font-size: clamp(2rem, 3.3vw, 3.4rem);
-  max-width: 14ch;
+  max-width: none;
+  text-wrap: balance;
 }
 
 .section-heading--centered {
@@ -754,6 +755,138 @@ textarea:focus-visible,
   text-transform: none;
 }
 
+.reasons-section {
+  background:
+    radial-gradient(circle at left top, rgba(255, 139, 43, 0.14), transparent 22%),
+    radial-gradient(circle at right top, rgba(106, 225, 245, 0.16), transparent 26%),
+    linear-gradient(180deg, #fffaf5 0%, #f7fbff 100%);
+}
+
+.reasons-layout,
+.reasons-grid {
+  display: grid;
+  gap: 22px;
+}
+
+.reasons-layout {
+  align-items: stretch;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+}
+
+.reasons-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.reason-spotlight,
+.reason-card {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.reason-spotlight {
+  background: linear-gradient(180deg, var(--navy-980) 0%, var(--navy-900) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--white);
+  overflow: hidden;
+  padding: 30px;
+  position: relative;
+}
+
+.reason-spotlight::before {
+  background: linear-gradient(90deg, rgba(255, 139, 43, 0.95), rgba(106, 225, 245, 0));
+  content: "";
+  height: 4px;
+  left: 30px;
+  position: absolute;
+  top: 0;
+  width: 120px;
+}
+
+.reason-kicker {
+  color: var(--orange-300);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.reason-spotlight h3,
+.reason-card h3 {
+  font-family: "Space Grotesk", sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.reason-spotlight h3 {
+  font-size: 2rem;
+  line-height: 1.06;
+}
+
+.reason-spotlight > p:not(.reason-kicker) {
+  color: rgba(255, 255, 255, 0.76);
+  margin-top: 16px;
+}
+
+.reason-list {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  margin-top: 24px;
+}
+
+.reason-list li,
+.reason-card p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.reason-list li {
+  align-items: flex-start;
+  display: flex;
+  gap: 10px;
+}
+
+.reason-list li::before {
+  color: var(--orange-300);
+  content: "\F26E";
+  flex-shrink: 0;
+  font-family: "bootstrap-icons";
+  font-size: 0.86rem;
+  margin-top: 4px;
+}
+
+.reason-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  padding: 28px;
+}
+
+.reason-card-icon {
+  align-items: center;
+  background: linear-gradient(135deg, rgba(40, 182, 232, 0.14), rgba(255, 139, 43, 0.14));
+  border-radius: 18px;
+  color: var(--navy-950);
+  display: inline-flex;
+  height: 54px;
+  justify-content: center;
+  margin-bottom: 18px;
+  width: 54px;
+}
+
+.reason-card-icon i {
+  font-size: 1.2rem;
+}
+
+.reason-card h3 {
+  color: var(--navy-950);
+  font-size: 1.28rem;
+  line-height: 1.16;
+  margin-bottom: 12px;
+}
+
+.reason-card p {
+  color: var(--muted);
+}
+
 .plans-section {
   background: linear-gradient(180deg, var(--navy-980) 0%, var(--navy-900) 100%);
   color: var(--white);
@@ -841,12 +974,28 @@ textarea:focus-visible,
   color: rgba(255, 255, 255, 0.76);
 }
 
+.plan-offer {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  margin: 22px 0;
+  padding: 20px 22px;
+}
+
+.plan-offer-label {
+  color: rgba(255, 193, 129, 0.92);
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .plan-price {
   align-items: baseline;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 22px 0;
+  margin: 10px 0 8px;
 }
 
 .plan-price strong {
@@ -860,6 +1009,12 @@ textarea:focus-visible,
 .plan-price span {
   color: rgba(255, 255, 255, 0.72);
   font-size: 0.98rem;
+  font-weight: 700;
+}
+
+.plan-shipping {
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.95rem;
   font-weight: 700;
 }
 
@@ -1465,6 +1620,10 @@ textarea:focus-visible,
   padding-top: 14px;
 }
 
+.signup-fallback {
+  margin-top: 12px;
+}
+
 .form-status.is-loading {
   color: #4b6b89;
   font-weight: 700;
@@ -1898,6 +2057,10 @@ textarea:focus-visible,
     width: 100%;
   }
 
+  .reasons-layout {
+    grid-template-columns: 1fr;
+  }
+
 }
 
 @media (max-width: 1024px) {
@@ -1991,6 +2154,10 @@ textarea:focus-visible,
     grid-template-columns: 1fr;
   }
 
+  .reasons-grid {
+    grid-template-columns: 1fr;
+  }
+
   .portfolio-toolbar,
   .portfolio-summary {
     align-items: flex-start;
@@ -2059,6 +2226,8 @@ textarea:focus-visible,
   }
 
   .value-card,
+  .reason-spotlight,
+  .reason-card,
   .plan-card,
   .style-card,
   .process-card,
@@ -2079,6 +2248,10 @@ textarea:focus-visible,
   .preview-card,
   .metric {
     padding: 22px;
+  }
+
+  .reason-spotlight h3 {
+    font-size: 1.8rem;
   }
 
   .floating-whatsapp {
@@ -2162,6 +2335,11 @@ textarea:focus-visible,
     font-size: 1.75rem;
   }
 
+  .plan-offer {
+    border-radius: 20px;
+    padding: 18px;
+  }
+
   .plan-price strong {
     font-size: 2.2rem;
   }
@@ -2231,6 +2409,8 @@ textarea:focus-visible,
   .preview-card,
   .metric,
   .value-card,
+  .reason-spotlight,
+  .reason-card,
   .plan-card,
   .style-card,
   .process-card,
@@ -2261,6 +2441,10 @@ textarea:focus-visible,
 
   .process-note strong {
     font-size: 1.08rem;
+  }
+
+  .plan-offer {
+    padding: 16px;
   }
 
   .floating-whatsapp {
