@@ -1,5 +1,6 @@
 const WHATSAPP_NUMBER = "5532998406067";
 const ALL_FILTER_LABEL = "Todos";
+const MOBILE_NAV_BREAKPOINT = 1024;
 
 const PLANS = {
   lite: {
@@ -372,7 +373,7 @@ function bindMenu() {
   });
 
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 860) {
+    if (window.innerWidth > MOBILE_NAV_BREAKPOINT) {
       siteNav.classList.remove("is-open");
       menuToggle.setAttribute("aria-expanded", "false");
     }
