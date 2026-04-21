@@ -2,34 +2,35 @@ const WHATSAPP_NUMBER = "5532998406067";
 const ALL_FILTER_LABEL = "Todos";
 const MOBILE_NAV_BREAKPOINT = 1024;
 const CHECKOUT_INSTALLMENTS = 12;
-const ONE_TIME_SHIPPING_FEE = 15.9;
-const FIXED_SHIPPING_PRICE = formatCurrencyBRL(ONE_TIME_SHIPPING_FEE);
+const ONE_TIME_SHIPPING_FEE = 0;
+const SHIPPING_INCLUDED_LABEL = "Frete incluso";
 
 const PLANS = {
   lite: buildPlan({
     name: "Miu Box Lite",
-    baseMonthlyPrice: 49.9,
+    baseMonthlyPrice: 65.8,
     monthly: "2 itens surpresa",
-    summary: "2 itens surpresa para comecar na Miu Box com uma experiencia criativa e acessivel."
+    summary: "2 itens surpresa para come\u00e7ar na Miu Box com uma experi\u00eancia criativa e acess\u00edvel.",
+    priceText: "Total de R$ 789,6 em 12x de R$ 65,8 com frete incluso"
   })
 };
 
 const STYLES = {
   geek: {
     name: "Geek",
-    description: "Pecas decorativas e de utilidade com referencias pop, games e muita personalidade."
+    description: "Pe\u00e7as decorativas e de utilidade com refer\u00eancias pop, games e muita personalidade."
   },
   minimalista: {
     name: "Minimalista",
-    description: "Pecas decorativas e de utilidade com formas limpas, visual leve e acabamento elegante."
+    description: "Pe\u00e7as decorativas e de utilidade com formas limpas, visual leve e acabamento elegante."
   },
   moderno: {
     name: "Moderno",
-    description: "Pecas decorativas e de utilidade com design contemporaneo, praticidade e boa presenca visual."
+    description: "Pe\u00e7as decorativas e de utilidade com design contempor\u00e2neo, praticidade e boa presen\u00e7a visual."
   },
   "surpresa-total": {
     name: "Surpresa Total",
-    description: "Pecas decorativas e de utilidade com curadoria livre entre os temas da Miu Box."
+    description: "Pe\u00e7as decorativas e de utilidade com curadoria livre entre os temas da Miu Box."
   }
 };
 
@@ -119,15 +120,15 @@ function buildPlan(config) {
     checkoutTotal: checkoutTotal,
     installmentValue: installmentValue,
     price:
-      "Total de " +
-      formatCurrencyBRL(checkoutTotal) +
-      " em " +
-      CHECKOUT_INSTALLMENTS +
-      "x de " +
-      formatCurrencyBRL(installmentValue) +
-      " + " +
-      FIXED_SHIPPING_PRICE +
-      " de frete",
+      config.priceText ||
+      ("Total de " +
+        formatCurrencyBRL(checkoutTotal) +
+        " em " +
+        CHECKOUT_INSTALLMENTS +
+        "x de " +
+        formatCurrencyBRL(installmentValue) +
+        " com " +
+        SHIPPING_INCLUDED_LABEL.toLowerCase()),
     monthly: config.monthly,
     summary: config.summary
   };
@@ -199,7 +200,7 @@ function updateSummary(items) {
   }
 
   const count = items.length;
-  const label = count === 1 ? "referencia" : "referencias";
+  const label = count === 1 ? "refer\u00eancia" : "refer\u00eancias";
   const categoryPart =
     state.activeCategory === ALL_FILTER_LABEL
       ? "na galeria"
@@ -221,7 +222,7 @@ function createDetailList(details) {
 
 function createPortfolioCard(item) {
   const message =
-    "Ola! Vi a referencia " +
+    "Ol\u00e1! Vi a refer\u00eancia " +
     item.title +
     " e quero que minha Miu Box tenha uma vibe parecida. Pode me orientar sobre o melhor plano?";
 
@@ -238,7 +239,7 @@ function createPortfolioCard(item) {
     '  <div class="portfolio-content">',
     '    <div class="portfolio-meta">',
     '      <span class="badge badge--category">' + item.category + "</span>",
-    '      <span class="badge badge--label">' + (item.label || "Referencia") + "</span>",
+    '      <span class="badge badge--label">' + (item.label || "Refer\u00eancia") + "</span>",
     "    </div>",
     '    <h3 class="portfolio-title">' + item.title + "</h3>",
     '    <p class="portfolio-description">' + item.description + "</p>",
@@ -271,7 +272,7 @@ function renderPortfolio() {
   if (!filteredItems.length) {
     portfolioGrid.innerHTML =
       '<div class="portfolio-empty">' +
-      "<strong>Nenhuma referencia apareceu nesse filtro.</strong><br>" +
+      "<strong>Nenhuma refer\u00eancia apareceu nesse filtro.</strong><br>" +
       "Vale chamar no WhatsApp para falar do seu estilo ideal na Miu Box." +
       "</div>";
     return;
@@ -294,7 +295,7 @@ function openLightbox(itemId) {
   lightboxImage.src = item.image;
   lightboxImage.alt = item.imageAlt || item.title;
   lightboxTitle.textContent = item.title;
-  lightboxCategory.textContent = (item.label || "Referencia") + " - " + item.category;
+  lightboxCategory.textContent = (item.label || "Refer\u00eancia") + " - " + item.category;
   lightboxDescription.textContent = item.description;
 
   lightbox.hidden = false;
@@ -358,7 +359,7 @@ function applyFeaturedVideo() {
   featuredVideo.load();
 
   if (featuredVideoTitle) {
-    featuredVideoTitle.textContent = featuredVideoData.title || "Veja uma peca em movimento";
+    featuredVideoTitle.textContent = featuredVideoData.title || "Veja uma pe\u00e7a em movimento";
   }
 
   if (featuredVideoDescription) {
@@ -367,8 +368,8 @@ function applyFeaturedVideo() {
 
   if (featuredVideoCta) {
     const videoMessage =
-      (featuredVideoData.ctaMessage || "Ola! Quero uma box com uma vibe parecida com o video.") +
-      " Tambem quero conhecer a Miu Box.";
+      (featuredVideoData.ctaMessage || "Ol\u00e1! Quero uma box com uma vibe parecida com o v\u00eddeo.") +
+      " Tamb\u00e9m quero conhecer a Miu Box.";
     featuredVideoCta.href = buildWhatsAppUrl(videoMessage);
   }
 }
@@ -569,7 +570,7 @@ function validateBirthDateInput() {
   const parsedDate = parseBirthDate(value);
 
   if (!parsedDate) {
-    birthDateInput.setCustomValidity("Informe uma data de nascimento valida.");
+    birthDateInput.setCustomValidity("Informe uma data de nascimento v\u00e1lida.");
     return false;
   }
 
@@ -577,7 +578,7 @@ function validateBirthDateInput() {
   today.setHours(0, 0, 0, 0);
 
   if (parsedDate > today) {
-    birthDateInput.setCustomValidity("A data de nascimento nao pode estar no futuro.");
+    birthDateInput.setCustomValidity("A data de nascimento n\u00e3o pode estar no futuro.");
     return false;
   }
 
@@ -741,32 +742,32 @@ function buildEmailJsMessage(params) {
   return [
     "NOVO ASSINANTE recebido no site da Miu Box.",
     "",
-    "Proximo passo: entrar em contato para entender os tipos de produtos desejados e seguir com o pagamento no cartao em 12x.",
+    "Pr\u00f3ximo passo: entrar em contato para entender os tipos de produtos desejados e seguir com o pagamento no cart\u00e3o em 12x.",
     "",
     "Submission ID: " + params.submissionId,
     "Recebido em: " + params.submittedAt,
     "Nome completo: " + params.fullName,
     "CPF: " + params.cpf,
     "Data de nascimento: " + params.birthDate,
-    "Email: " + params.email,
+    "E-mail: " + params.email,
     "Plano: " + params.planName,
-    "Preco do plano: " + params.planPrice,
+    "Pre\u00e7o do plano: " + params.planPrice,
     "Quantidade / extras: " + params.monthlyCount,
     "Parcela mensal em 12x: " + params.installmentValue,
     "Frete: " + params.shippingFee,
     "Total anual estimado: " + params.annualBoxesTotal,
-    "Valor total com frete: " + params.checkoutTotal,
+    "Valor total com frete incluso: " + params.checkoutTotal,
     "Estilo: " + params.styleName,
-    "Descricao do estilo: " + params.styleDescription,
+    "Descri\u00e7\u00e3o do estilo: " + params.styleDescription,
     "CEP: " + params.zipCode,
     "Rua: " + params.street,
-    "Numero: " + params.number,
+    "N\u00famero: " + params.number,
     "Complemento: " + params.complement,
     "Bairro: " + params.district,
     "Cidade: " + params.city,
     "Estado: " + params.state,
-    "Endereco completo: " + params.fullAddress,
-    "Observacoes: " + params.notes
+    "Endere\u00e7o completo: " + params.fullAddress,
+    "Observa\u00e7\u00f5es: " + params.notes
   ].join("\n");
 }
 
@@ -789,7 +790,7 @@ function buildEmailJsTemplateParams() {
     annualBoxesTotal: formatCurrencyBRL(plan.annualBoxesTotal),
     checkoutTotal: formatCurrencyBRL(plan.checkoutTotal),
     installmentValue: formatCurrencyBRL(plan.installmentValue),
-    shippingFee: FIXED_SHIPPING_PRICE,
+    shippingFee: SHIPPING_INCLUDED_LABEL,
     styleName: getTrimmedValue(styleNameHidden) || style.name,
     styleDescription: getTrimmedValue(styleDescriptionHidden) || style.description,
     zipCode: getTrimmedValue(zipCodeInput),
@@ -853,7 +854,7 @@ function extractEmailJsErrorMessage(error) {
     return error.message.trim();
   }
 
-  return "Nao foi possivel enviar o cadastro agora. Tente novamente em instantes.";
+  return "N\u00e3o foi poss\u00edvel enviar o cadastro agora. Tente novamente em instantes.";
 }
 
 function buildFullAddress() {
@@ -873,7 +874,7 @@ function buildFullAddress() {
 function buildSubmissionAddress() {
   const addressParts = [
     streetInput ? streetInput.value.trim() : "",
-    numberInput && numberInput.value.trim() ? "Numero " + numberInput.value.trim() : "",
+    numberInput && numberInput.value.trim() ? "N\u00famero " + numberInput.value.trim() : "",
     complementInput && complementInput.value.trim() ? complementInput.value.trim() : "",
     districtInput ? districtInput.value.trim() : "",
     cityInput ? cityInput.value.trim() : "",
@@ -956,7 +957,7 @@ async function lookupZipCode(cep) {
     const response = await fetch(VIA_CEP_BASE_URL + cep + "/json/");
 
     if (!response.ok) {
-      throw new Error("Nao foi possivel consultar este CEP agora.");
+      throw new Error("N\u00e3o foi poss\u00edvel consultar este CEP agora.");
     }
 
     const data = await response.json();
@@ -966,20 +967,20 @@ async function lookupZipCode(cep) {
     }
 
     if (data.erro) {
-      throw new Error("CEP nao encontrado. Confira os numeros e tente novamente.");
+      throw new Error("CEP n\u00e3o encontrado. Confira os n\u00fameros e tente novamente.");
     }
 
     populateAddressFieldsFromZipCode(data);
     lastZipCodeLookup = cep;
     syncSubmissionHiddenFields();
-    setZipCodeStatus("CEP encontrado. Revise os campos e complete o numero.", "success");
+    setZipCodeStatus("CEP encontrado. Revise os campos e complete o n\u00famero.", "success");
   } catch (error) {
     if (currentLookup !== zipCodeLookupSequence) {
       return;
     }
 
     lastZipCodeLookup = "";
-    setZipCodeStatus(error.message || "Nao foi possivel consultar o CEP.", "error");
+    setZipCodeStatus(error.message || "N\u00e3o foi poss\u00edvel consultar o CEP.", "error");
   }
 }
 
@@ -1090,12 +1091,12 @@ function bindSubscriptionForm() {
     syncSubmissionHiddenFields();
 
     if (!isEmailJsConfigured()) {
-      setFormStatus("O EmailJS ainda nao esta configurado nesta pagina. Preencha publicKey, serviceId e templateId.", "error");
+      setFormStatus("O EmailJS ainda n\u00e3o est\u00e1 configurado nesta p\u00e1gina. Preencha publicKey, serviceId e templateId.", "error");
       return;
     }
 
     if (!ensureEmailJsInitialized()) {
-      setFormStatus("Nao foi possivel iniciar o EmailJS nesta pagina. Confira a configuracao e tente novamente.", "error");
+      setFormStatus("N\u00e3o foi poss\u00edvel iniciar o EmailJS nesta p\u00e1gina. Confira a configura\u00e7\u00e3o e tente novamente.", "error");
       return;
     }
 
@@ -1121,7 +1122,7 @@ function bindSubscriptionForm() {
         setFormStatus(
           "Cadastro enviado com sucesso! O link de pagamento do Mercado Pago para o plano " +
             selectedPlan.name +
-            " ainda nao esta configurado nesta pagina.",
+            " ainda n\u00e3o est\u00e1 configurado nesta p\u00e1gina.",
           "success"
         );
         return;
